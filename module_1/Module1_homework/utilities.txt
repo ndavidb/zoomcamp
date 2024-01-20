@@ -1,0 +1,23 @@
+python data_ingest.py \
+    --user=root \
+    --password=root \
+    --host=localhost \
+    --port=5432 \
+    --db=green_taxi \
+    --green_taxi_table=green_taxi \
+    --url_green_taxi="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz" \
+    --taxi_zone_table=taxi_zone \
+    --url_taxi_zone="https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv"
+
+docker run -it \
+    --network=module1_homework_default \
+    green_taxi_ingest \
+        --user=root \
+        --password=root \
+        --host=postgredatabase \
+        --port=5432 \
+        --db=green_taxi \
+        --green_taxi_table=green_taxi \
+        --url_green_taxi="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz" \
+        --taxi_zone_table=taxi_zone \
+        --url_taxi_zone="https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv"

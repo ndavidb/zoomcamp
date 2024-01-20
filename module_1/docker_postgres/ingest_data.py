@@ -16,6 +16,7 @@ def main(params):
     url = params.url
 
     csv_name = "output.csv"
+    print(csv_name)
 
     # Download CSV
     wget.download(url, out=csv_name)
