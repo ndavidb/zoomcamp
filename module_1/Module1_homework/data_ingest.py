@@ -16,7 +16,7 @@ def create_empty_table(df_columns, table_name: str, engine):
 
 
 def process_insert_green_taxi_data(engine, url: str, table_name: str, chunk_size: int = 100000):
-    output: str = "output.csv"
+    output: str = "output.gz"
     response = requests.get(url, allow_redirects=True)
     with open(output, 'wb') as handle:
         handle.write(response.content)
@@ -25,7 +25,8 @@ def process_insert_green_taxi_data(engine, url: str, table_name: str, chunk_size
     df = next(df_iter)
 
     preprocess_date_time_columns(df)
-    df.head(n=0).to_sql(name='green_taxi_data', con=engine, if_exists="replace")
+    df.head(n=0).to_sql(name=table_name, con=engine, if_exists="replace")
+    df.to_sql(name=table_name, con=engine, if_exists="append")
 
     while True:
         try:
@@ -64,12 +65,9 @@ def main(params):
     url_taxi_zone = params.url_taxi_zone
     url_green_taxi = params.url_green_taxi
 
-    engine_green_taxi = create_engine(
-        f'postgresql://{user}:{password}@{host}:{port}/{db}')
-    engine_taxi_zone = create_engine(
-        f'postgresql://{user}:{password}@{host}:{port}/{db}')
-    process_insert_green_taxi_data(engine_green_taxi, url_green_taxi, green_taxi_table)
-    process_insert_taxi_zone_data(engine_taxi_zone, url_taxi_zone, taxi_zone_table)
+    engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
+    process_insert_green_taxi_data(engine, url_green_taxi, green_taxi_table)
+    process_insert_taxi_zone_data(engine, url_taxi_zone, taxi_zone_table)
 
 
 if __name__ == "__main__":
