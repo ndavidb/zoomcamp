@@ -1,0 +1,2 @@
+{"operation": "create", "resource": {"type": "pipeline", "uuid": "windy_pine"}, "timestamp": 1706747074, "user": null}
+{"operation": "create", "resource": {"type": "pipeline", "uuid": "load_to_gcs_copy"}, "timestamp": 1706748857, "user": null}
