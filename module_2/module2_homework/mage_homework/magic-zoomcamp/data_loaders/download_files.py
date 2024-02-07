@@ -40,12 +40,13 @@ def load_data_from_api(*args, **kwargs):
 
     for i in range(10,13):
         link = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2020-{i}.csv.gz"
-        urls.append (link)
+        urls.append(link)
 
     dfs = []
 
     for url in urls:
         dfs.append(pd.read_csv(url, sep=',', compression='gzip', dtype=taxi_dtypes, parse_dates=parse_dates))
+        
 
     return pd.concat(dfs, ignore_index=True)
 
